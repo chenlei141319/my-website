@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>量化交易平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(100, 200, 255, 0.5);
+            border-radius: 50%;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0 20px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #8b9dc3;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #8b9dc3;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        .stat-value.up {
+            color: #00ff88;
+            animation: pulse-up 1s ease-in-out infinite;
+        }
+
+        .stat-value.down {
+            color: #ff4757;
+            animation: pulse-down 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse-up {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes pulse-down {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+        }
+
+        .data-stream {
+            height: 60px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .stream-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 15px;
+            font-size: 12px;
+            animation: stream 3s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes stream {
+            0% { transform: translateY(60px); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-60px); opacity: 0; }
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 18px;
+            margin: 30px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            animation: button-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes button-glow {
+            0%, 100% { box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 10px 40px rgba(102, 126, 234, 0.6); }
+        }
+
+        .cta-button:active {
+            transform: scale(0.98);
+        }
+
+        .features {
+            margin: 30px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border-left: 3px solid #667eea;
+            animation: slide-in 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .feature-item:nth-child(1) { animation-delay: 0.1s; }
+        .feature-item:nth-child(2) { animation-delay: 0.2s; }
+        .feature-item:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes slide-in {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .feature-text {
+            font-size: 14px;
+            color: #dfe6e9;
+        }
+
+        .wave {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            z-index: 0;
+            opacity: 0.1;
+        }
+
+        .wave path {
+            animation: wave 8s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="#667eea" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+    </svg>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">⚡ 量化交易</div>
+            <div class="subtitle">智能算法 · 稳定收益</div>
+        </div>
+
+        <div class="stats-card">
+            <div class="stat-item">
+                <span class="stat-label">今日收益率</span>
+                <span class="stat-value up" id="profit">+0.00%</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">累计收益</span>
+                <span class="stat-value" id="total" style="color: #ffd700;">¥0.00</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">活跃策略</span>
+                <span class="stat-value" id="strategies" style="color: #64b5f6;">0</span>
+            </div>
+        </div>
+
+        <div class="data-stream" id="dataStream"></div>
+
+        <button class="cta-button" onclick="startTrading()">
+            🚀 立即开始交易
+        </button>
+
+        <div class="features">
+            <div class="feature-item">
+                <span class="feature-icon">🤖</span>
+                <span class="feature-text">AI智能算法，24小时自动交易</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📊</span>
+                <span class="feature-text">实时数据分析，精准把握市场</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🔒</span>
+                <span class="feature-text">银行级安全保障，资金安全无忧</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function updateStats() {
+            const profit = document.getElementById('profit');
+            const total = document.getElementById('total');
+            const strategies = document.getElementById('strategies');
+
+            setInterval(() => {
+                const profitValue = (Math.random() * 5 - 1).toFixed(2);
+                profit.textContent = (profitValue >= 0 ? '+' : '') + profitValue + '%';
+                profit.className = 'stat-value ' + (profitValue >= 0 ? 'up' : 'down');
+
+                const totalValue = (Math.random() * 50000 + 10000).toFixed(2);
+                total.textContent = '¥' + totalValue.toLocaleString();
+
+                const strategyCount = Math.floor(Math.random() * 5 + 3);
+                strategies.textContent = strategyCount;
+            }, 2000);
+        }
+
+        function createDataStream() {
+            const stream = document.getElementById('dataStream');
+            const symbols = ['BTC/USDT', 'ETH/USDT', 'BNB/USDT', 'SOL/USDT', 'ADA/USDT'];
+            
+            setInterval(() => {
+                const item = document.createElement('div');
+                item.className = 'stream-item';
+                const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+                const price = (Math.random() * 10000 + 1000).toFixed(2);
+                const change = (Math.random() * 10 - 5).toFixed(2);
+                const color = change >= 0 ? '#00ff88' : '#ff4757';
+                
+                item.innerHTML = `
+                    <span>${symbol}</span>
+                    <span style="color: ${color}">${change >= 0 ? '+' : ''}${change}%</span>
+                `;
+                
+                stream.appendChild(item);
+                
+                setTimeout(() => {
+                    item.remove();
+                }, 3000);
+            }, 1000);
+        }
+
+        function startTrading() {
+            alert('🎉 欢迎使用量化交易平台！\n\n功能开发中，敬请期待...');
+        }
+
+        createParticles();
+        updateStats();
+        createDataStream();
+    </script>
+</body>
+</html>
