@@ -150,10 +150,101 @@
             100% { transform: translateY(-60px); opacity: 0; }
         }
 
+        .calculator-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .calculator-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .input-group {
+            margin: 20px 0;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 14px;
+            color: #8b9dc3;
+            margin-bottom: 10px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .days-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .day-btn {
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #8b9dc3;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .day-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .day-btn:hover {
+            border-color: #667eea;
+        }
+
+        .rate-display {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #rateValue {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff88;
+            margin-right: 10px;
+        }
+
+        .rate-note {
+            font-size: 12px;
+            color: #8b9dc3;
+        }
+
         .cta-button {
             width: 100%;
             padding: 18px;
-            margin: 30px 0;
+            margin: 20px 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
             border-radius: 15px;
@@ -173,6 +264,58 @@
 
         .cta-button:active {
             transform: scale(0.98);
+        }
+
+        .result-card {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-item.total {
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #8b9dc3;
+        }
+
+        .result-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .result-value.profit {
+            color: #00ff88;
+        }
+
+        .result-item.total .result-value {
+            font-size: 24px;
+            color: #ffd700;
         }
 
         .features {
@@ -266,9 +409,52 @@
 
         <div class="data-stream" id="dataStream"></div>
 
-        <button class="cta-button" onclick="startTrading()">
-            🚀 立即开始交易
-        </button>
+        <!-- 复利计算器 -->
+        <div class="calculator-card">
+            <h3 class="calculator-title">💰 收益计算器</h3>
+            
+            <div class="input-group">
+                <label class="input-label">投资金额 (¥)</label>
+                <input type="number" id="investment" class="input-field" placeholder="请输入投资金额" value="10000">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">投资天数</label>
+                <div class="days-selector">
+                    <button class="day-btn" onclick="selectDays(7)">7天</button>
+                    <button class="day-btn active" onclick="selectDays(30)">30天</button>
+                    <button class="day-btn" onclick="selectDays(90)">90天</button>
+                    <button class="day-btn" onclick="selectDays(180)">180天</button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">日收益率</label>
+                <div class="rate-display">
+                    <span id="rateValue">1.5%</span>
+                    <span class="rate-note">(每日 1-2% 浮动)</span>
+                </div>
+            </div>
+
+            <button class="cta-button" onclick="calculateReturn()">
+                📊 计算收益
+            </button>
+
+            <div class="result-card" id="resultCard" style="display: none;">
+                <div class="result-item">
+                    <span class="result-label">投资本金</span>
+                    <span class="result-value" id="principal">¥0</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">预期收益</span>
+                    <span class="result-value profit" id="profit">¥0</span>
+                </div>
+                <div class="result-item total">
+                    <span class="result-label">总计金额</span>
+                    <span class="result-value" id="total">¥0</span>
+                </div>
+            </div>
+        </div>
 
         <div class="features">
             <div class="feature-item">
@@ -287,6 +473,8 @@
     </div>
 
     <script>
+        let selectedDays = 30;
+
         function createParticles() {
             const container = document.getElementById('particles');
             for (let i = 0; i < 50; i++) {
@@ -343,8 +531,40 @@
             }, 1000);
         }
 
-        function startTrading() {
-            alert('🎉 欢迎使用量化交易平台！\n\n功能开发中，敬请期待...');
+        function selectDays(days) {
+            selectedDays = days;
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function calculateReturn() {
+            const investment = parseFloat(document.getElementById('investment').value);
+            
+            if (!investment || investment <= 0) {
+                alert('请输入有效的投资金额！');
+                return;
+            }
+
+            // 每日收益率在1%-2%之间随机
+            const dailyRate = (Math.random() * 0.01 + 0.01); // 1% - 2%
+            
+            // 复利计算: 最终金额 = 本金 × (1 + 日利率)^天数
+            const finalAmount = investment * Math.pow(1 + dailyRate, selectedDays);
+            const profitAmount = finalAmount - investment;
+
+            // 显示结果
+            document.getElementById('principal').textContent = '¥' + investment.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('profit').textContent = '¥' + profitAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('total').textContent = '¥' + finalAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            
+            // 更新显示的日收益率
+            document.getElementById('rateValue').textContent = (dailyRate * 100).toFixed(2) + '%';
+
+            // 显示结果卡片
+            const resultCard = document.getElementById('resultCard');
+            resultCard.style.display = 'block';
         }
 
         createParticles();
