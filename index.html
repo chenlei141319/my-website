@@ -313,6 +313,10 @@
             color: #00ff88;
         }
 
+        .result-value.monthly-rate {
+            color: #64b5f6;
+        }
+
         .result-item.total .result-value {
             font-size: 24px;
             color: #ffd700;
@@ -446,12 +450,16 @@
                     <span class="result-value" id="principal">¥0</span>
                 </div>
                 <div class="result-item">
+                    <span class="result-label">月化率（预估）</span>
+                    <span class="result-value monthly-rate" id="monthlyRate">0%</span>
+                </div>
+                <div class="result-item">
                     <span class="result-label">预期收益</span>
-                    <span class="result-value profit" id="profit">¥0</span>
+                    <span class="result-value profit" id="profitResult">¥0</span>
                 </div>
                 <div class="result-item total">
                     <span class="result-label">总计金额</span>
-                    <span class="result-value" id="total">¥0</span>
+                    <span class="result-value" id="totalResult">¥0</span>
                 </div>
             </div>
         </div>
@@ -554,10 +562,17 @@
             const finalAmount = investment * Math.pow(1 + dailyRate, selectedDays);
             const profitAmount = finalAmount - investment;
 
+            // 计算月化率（预估）
+            // 月化率 = (最终金额 / 本金)^(30 / 投资天数) - 1
+            const monthlyRate = (Math.pow(finalAmount / investment, 30 / selectedDays) - 1) * 100;
+            // 确保月化率最低为10%
+            const displayMonthlyRate = Math.max(monthlyRate, 10);
+
             // 显示结果
             document.getElementById('principal').textContent = '¥' + investment.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('profit').textContent = '¥' + profitAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('total').textContent = '¥' + finalAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('monthlyRate').textContent = displayMonthlyRate.toFixed(2) + '%';
+            document.getElementById('profitResult').textContent = '¥' + profitAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('totalResult').textContent = '¥' + finalAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             
             // 更新显示的日收益率
             document.getElementById('rateValue').textContent = (dailyRate * 100).toFixed(2) + '%';
