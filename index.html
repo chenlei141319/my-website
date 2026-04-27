@@ -555,23 +555,38 @@
                 return;
             }
 
-            // 每日收益率在1%-2%之间随机
-            const dailyRate = (Math.random() * 0.01 + 0.01); // 1% - 2%
+            // 根据投资金额自动分配月化率
+            // 每1000元增加月化率
+            let monthlyRate = 10; // 基础月化率10%
+            const thousands = Math.floor(investment / 1000);
             
-            // 复利计算: 最终金额 = 本金 × (1 + 日利率)^天数
-            const finalAmount = investment * Math.pow(1 + dailyRate, selectedDays);
-            const profitAmount = finalAmount - investment;
+            if (thousands >= 1 && thousands < 5) {
+                monthlyRate = 10; // 1000-4999: 10%
+            } else if (thousands >= 5 && thousands < 10) {
+                monthlyRate = 12; // 5000-9999: 12%
+            } else if (thousands >= 10 && thousands < 20) {
+                monthlyRate = 15; // 10000-19999: 15%
+            } else if (thousands >= 20 && thousands < 50) {
+                monthlyRate = 18; // 20000-49999: 18%
+            } else if (thousands >= 50 && thousands < 100) {
+                monthlyRate = 20; // 50000-99999: 20%
+            } else if (thousands >= 100) {
+                monthlyRate = 25; // 100000+: 25%
+            }
 
-            // 月化率固定为10%
-            const displayMonthlyRate = 10;
+            // 根据月化率和投资天数计算预期收益
+            // 预期收益 = 本金 × 月化率 × (天数/30)
+            const profitAmount = investment * (monthlyRate / 100) * (selectedDays / 30);
+            const finalAmount = investment + profitAmount;
 
             // 显示结果
             document.getElementById('principal').textContent = '¥' + investment.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('monthlyRate').textContent = displayMonthlyRate.toFixed(0) + '%';
+            document.getElementById('monthlyRate').textContent = monthlyRate.toFixed(0) + '%';
             document.getElementById('profitResult').textContent = '¥' + profitAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('totalResult').textContent = '¥' + finalAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             
-            // 更新显示的日收益率
+            // 更新显示的日收益率（根据月化率反推）
+            const dailyRate = (monthlyRate / 100) / 30;
             document.getElementById('rateValue').textContent = (dailyRate * 100).toFixed(2) + '%';
 
             // 显示结果卡片
