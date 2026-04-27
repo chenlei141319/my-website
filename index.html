@@ -562,15 +562,12 @@
             const finalAmount = investment * Math.pow(1 + dailyRate, selectedDays);
             const profitAmount = finalAmount - investment;
 
-            // 计算月化率（预估）
-            // 月化率 = (最终金额 / 本金)^(30 / 投资天数) - 1
-            const monthlyRate = (Math.pow(finalAmount / investment, 30 / selectedDays) - 1) * 100;
-            // 确保月化率最低为10%
-            const displayMonthlyRate = Math.max(monthlyRate, 10);
+            // 月化率固定为10%
+            const displayMonthlyRate = 10;
 
             // 显示结果
             document.getElementById('principal').textContent = '¥' + investment.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('monthlyRate').textContent = displayMonthlyRate.toFixed(2) + '%';
+            document.getElementById('monthlyRate').textContent = displayMonthlyRate.toFixed(0) + '%';
             document.getElementById('profitResult').textContent = '¥' + profitAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('totalResult').textContent = '¥' + finalAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             
