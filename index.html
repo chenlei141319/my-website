@@ -529,7 +529,7 @@
             <h3 class="calculator-title">💰 收益计算器</h3>
             
             <div class="input-group">
-                <label class="input-label">投资金额 (¥)</label>
+                <label class="input-label">投资金额 (美金或USDT)</label>
                 <input type="number" id="investment" class="input-field" placeholder="请输入投资金额" value="10000">
             </div>
 
@@ -558,7 +558,7 @@
             <div class="result-card" id="resultCard" style="display: none;">
                 <div class="result-item">
                     <span class="result-label">投资本金</span>
-                    <span class="result-value" id="principal">¥0</span>
+                    <span class="result-value" id="principal">$0</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label">月化率（预估）</span>
@@ -566,11 +566,11 @@
                 </div>
                 <div class="result-item">
                     <span class="result-label">预期收益</span>
-                    <span class="result-value profit" id="profitResult">¥0</span>
+                    <span class="result-value profit" id="profitResult">$0</span>
                 </div>
                 <div class="result-item total">
                     <span class="result-label">总计金额</span>
-                    <span class="result-value" id="totalResult">¥0</span>
+                    <span class="result-value" id="totalResult">$0</span>
                 </div>
             </div>
         </div>
@@ -618,7 +618,7 @@
                 profit.className = 'stat-value ' + (profitValue >= 0 ? 'up' : 'down');
 
                 const totalValue = (Math.random() * 50000 + 10000).toFixed(2);
-                total.textContent = '¥' + totalValue.toLocaleString();
+                total.textContent = '$' + totalValue.toLocaleString();
 
                 const strategyCount = Math.floor(Math.random() * 5 + 3);
                 strategies.textContent = strategyCount;
@@ -707,10 +707,10 @@
             const finalAmount = investment + profitAmount;
 
             // 显示结果
-            document.getElementById('principal').textContent = '¥' + investment.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('principal').textContent = '$' + investment.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('monthlyRate').textContent = monthlyRate.toFixed(0) + '%';
-            document.getElementById('profitResult').textContent = '¥' + profitAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('totalResult').textContent = '¥' + finalAmount.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('profitResult').textContent = '$' + profitAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('totalResult').textContent = '$' + finalAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             
             // 更新显示的日收益率（根据月化率反推）
             const dailyRate = (monthlyRate / 100) / 30;
