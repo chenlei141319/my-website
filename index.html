@@ -365,8 +365,8 @@
 
         /* 客服联系区域 */
         .contact-section {
-            margin: 40px 0 20px;
-            padding: 30px 20px;
+            margin: 20px 0;
+            padding: 25px 20px;
             background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 200, 100, 0.1) 100%);
             border-radius: 20px;
             border: 1px solid rgba(0, 255, 136, 0.2);
@@ -482,6 +482,31 @@
             <div class="subtitle">智能算法 · 稳定收益</div>
         </div>
 
+        <!-- 客服联系区域 -->
+        <div class="contact-section">
+            <div class="contact-header">
+                <p class="contact-title">点击下方按钮添加客服，领取</p>
+                <p class="contact-subtitle">AI 量化交易免费体验名额</p>
+            </div>
+
+            <div class="contact-buttons">
+                <button class="contact-btn wechat" onclick="contactService('wechat')">
+                    <span class="btn-icon">💬</span>
+                    <span class="btn-text">点击添加微信</span>
+                </button>
+
+                <button class="contact-btn whatsapp" onclick="contactService('whatsapp')">
+                    <span class="btn-icon">📱</span>
+                    <span class="btn-text">点击添加 WhatsApp</span>
+                </button>
+
+                <button class="contact-btn line" onclick="contactService('line')">
+                    <span class="btn-icon">💚</span>
+                    <span class="btn-text">点击添加 LINE</span>
+                </button>
+            </div>
+        </div>
+
         <div class="stats-card">
             <div class="stat-item">
                 <span class="stat-label">今日收益率</span>
@@ -562,31 +587,6 @@
             <div class="feature-item">
                 <span class="feature-icon">🔒</span>
                 <span class="feature-text">银行级安全保障，资金安全无忧</span>
-            </div>
-        </div>
-
-        <!-- 客服联系区域 -->
-        <div class="contact-section">
-            <div class="contact-header">
-                <p class="contact-title">点击下方按钮添加客服，领取</p>
-                <p class="contact-subtitle">AI 量化交易免费体验名额</p>
-            </div>
-
-            <div class="contact-buttons">
-                <button class="contact-btn wechat" onclick="contactService('wechat')">
-                    <span class="btn-icon">💬</span>
-                    <span class="btn-text">点击添加微信</span>
-                </button>
-
-                <button class="contact-btn whatsapp" onclick="contactService('whatsapp')">
-                    <span class="btn-icon">📱</span>
-                    <span class="btn-text">点击添加 WhatsApp</span>
-                </button>
-
-                <button class="contact-btn line" onclick="contactService('line')">
-                    <span class="btn-icon">💚</span>
-                    <span class="btn-text">点击添加 LINE</span>
-                </button>
             </div>
         </div>
     </div>
