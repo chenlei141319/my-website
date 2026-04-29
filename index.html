@@ -363,6 +363,92 @@
             color: #dfe6e9;
         }
 
+        /* 客服联系区域 */
+        .contact-section {
+            margin: 40px 0 20px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 200, 100, 0.1) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            text-align: center;
+        }
+
+        .contact-header {
+            margin-bottom: 25px;
+        }
+
+        .contact-title {
+            font-size: 16px;
+            color: #8b9dc3;
+            margin-bottom: 8px;
+        }
+
+        .contact-subtitle {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-btn:active {
+            transform: scale(0.98);
+        }
+
+        .contact-btn.wechat {
+            background: linear-gradient(135deg, #07c160 0%, #05a850 100%);
+        }
+
+        .contact-btn.wechat:hover {
+            box-shadow: 0 8px 20px rgba(7, 193, 96, 0.4);
+        }
+
+        .contact-btn.whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #1DA851 100%);
+        }
+
+        .contact-btn.whatsapp:hover {
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .contact-btn.line {
+            background: linear-gradient(135deg, #00B900 0%, #009900 100%);
+        }
+
+        .contact-btn.line:hover {
+            box-shadow: 0 8px 20px rgba(0, 185, 0, 0.4);
+        }
+
+        .btn-icon {
+            font-size: 24px;
+        }
+
+        .btn-text {
+            font-size: 16px;
+        }
+
         .wave {
             position: fixed;
             bottom: 0;
@@ -478,6 +564,31 @@
                 <span class="feature-text">银行级安全保障，资金安全无忧</span>
             </div>
         </div>
+
+        <!-- 客服联系区域 -->
+        <div class="contact-section">
+            <div class="contact-header">
+                <p class="contact-title">点击下方按钮添加客服，领取</p>
+                <p class="contact-subtitle">AI 量化交易免费体验名额</p>
+            </div>
+
+            <div class="contact-buttons">
+                <button class="contact-btn wechat" onclick="contactService('wechat')">
+                    <span class="btn-icon">💬</span>
+                    <span class="btn-text">点击添加微信</span>
+                </button>
+
+                <button class="contact-btn whatsapp" onclick="contactService('whatsapp')">
+                    <span class="btn-icon">📱</span>
+                    <span class="btn-text">点击添加 WhatsApp</span>
+                </button>
+
+                <button class="contact-btn line" onclick="contactService('line')">
+                    <span class="btn-icon">💚</span>
+                    <span class="btn-text">点击添加 LINE</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -545,6 +656,22 @@
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
+        }
+
+        function contactService(type) {
+            let message = '';
+            switch(type) {
+                case 'wechat':
+                    message = '📱 请添加微信客服\n\n微信号：[请填写您的微信号]\n\n立即领取量化交易免费体验名额！';
+                    break;
+                case 'whatsapp':
+                    message = '📱 请添加 WhatsApp 客服\n\n号码：[请填写您的WhatsApp号码]\n\n立即领取量化交易免费体验名额！';
+                    break;
+                case 'line':
+                    message = '📱 请添加 LINE 客服\n\nLINE ID：[请填写您的LINE ID]\n\n立即领取量化交易免费体验名额！';
+                    break;
+            }
+            alert(message);
         }
 
         function calculateReturn() {
