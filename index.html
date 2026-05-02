@@ -54,6 +54,34 @@
         .header {
             text-align: center;
             padding: 30px 0 20px;
+            position: relative;
+        }
+
+        .lang-switch {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .lang-switch:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .lang-switch:active {
+            transform: scale(0.95);
         }
 
         .logo {
@@ -478,31 +506,35 @@
 
     <div class="container">
         <div class="header">
-            <div class="logo">⚡ 黄金量化交易托管平台</div>
-            <div class="subtitle">智能算法 · 稳定收益</div>
+            <button class="lang-switch" onclick="toggleLanguage()">
+                <span id="langIcon">🌐</span>
+                <span id="langText">EN</span>
+            </button>
+            <div class="logo" data-zh="⚡ 黄金量化交易托管平台" data-en="⚡ Gold Quantitative Trading Custody Platform">⚡ 黄金量化交易托管平台</div>
+            <div class="subtitle" data-zh="智能算法 · 稳定收益" data-en="Smart Algorithm · Stable Returns">智能算法 · 稳定收益</div>
         </div>
 
         <!-- 客服联系区域 -->
         <div class="contact-section">
             <div class="contact-header">
-                <p class="contact-title">点击下方按钮添加客服，领取</p>
-                <p class="contact-subtitle">AI 黄金量化交易托管免费体验名额</p>
+                <p class="contact-title" data-zh="点击下方按钮添加客服，领取" data-en="Click the button below to add customer service and get">点击下方按钮添加客服，领取</p>
+                <p class="contact-subtitle" data-zh="AI 黄金量化交易托管免费体验名额" data-en="AI Gold Quantitative Trading Custody Free Trial">AI 黄金量化交易托管免费体验名额</p>
             </div>
 
             <div class="contact-buttons">
                 <button class="contact-btn wechat" onclick="contactService('wechat')">
                     <span class="btn-icon">💬</span>
-                    <span class="btn-text">点击添加微信</span>
+                    <span class="btn-text" data-zh="点击添加微信" data-en="Add WeChat">点击添加微信</span>
                 </button>
 
                 <button class="contact-btn whatsapp" onclick="contactService('whatsapp')">
                     <span class="btn-icon">📱</span>
-                    <span class="btn-text">点击添加 WhatsApp</span>
+                    <span class="btn-text" data-zh="点击添加 WhatsApp" data-en="Add WhatsApp">点击添加 WhatsApp</span>
                 </button>
 
                 <button class="contact-btn line" onclick="contactService('line')">
                     <span class="btn-icon">💚</span>
-                    <span class="btn-text">点击添加 LINE</span>
+                    <span class="btn-text" data-zh="点击添加 LINE" data-en="Add LINE">点击添加 LINE</span>
                 </button>
             </div>
         </div>
@@ -529,9 +561,66 @@
             <h3 class="calculator-title">💰 收益计算器</h3>
             
             <div class="input-group">
-                <label class="input-label">投资金额 (美金或USDT) 起步$1000</label>
-                <input type="number" id="investment" class="input-field" placeholder="请输入投资金额" value="10000">
+                <label class="input-label" data-zh="投资金额 (美金或USDT) 起步$1000" data-en="Investment Amount (USD or USDT) Min $1000">投资金额 (美金或USDT) 起步$1000</label>
+                <input type="number" id="investment" class="input-field" placeholder="请输入投资金额" data-placeholder-zh="请输入投资金额" data-placeholder-en="Enter investment amount" value="10000">
             </div>
+
+            <div class="input-group">
+                <label class="input-label" data-zh="投资天数" data-en="Investment Days">投资天数</label>
+                <div class="days-selector">
+                    <button class="day-btn active" onclick="selectDays(30)" data-zh="30天" data-en="30 Days">30天</button>
+                    <button class="day-btn" onclick="selectDays(90)" data-zh="90天" data-en="90 Days">90天</button>
+                    <button class="day-btn" onclick="selectDays(180)" data-zh="180天" data-en="180 Days">180天</button>
+                    <button class="day-btn" onclick="selectDays(360)" data-zh="360天" data-en="360 Days">360天</button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" data-zh="日收益率" data-en="Daily Return Rate">日收益率</label>
+                <div class="rate-display">
+                    <span id="rateValue">1.5%</span>
+                    <span class="rate-note" data-zh="(每日 1-2% 浮动)" data-en="(Daily 1-2% fluctuation)">(每日 1-2% 浮动)</span>
+                </div>
+            </div>
+
+            <button class="cta-button" onclick="calculateReturn()">
+                <span data-zh="📊 计算收益" data-en="📊 Calculate Returns">📊 计算收益</span>
+            </button>
+
+            <div class="result-card" id="resultCard" style="display: none;">
+                <div class="result-item">
+                    <span class="result-label" data-zh="投资本金" data-en="Principal">投资本金</span>
+                    <span class="result-value" id="principal">$0</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label" data-zh="月化率（预估）" data-en="Monthly Rate (Est.)">月化率（预估）</span>
+                    <span class="result-value monthly-rate" id="monthlyRate">0%</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label" data-zh="预期收益" data-en="Expected Profit">预期收益</span>
+                    <span class="result-value profit" id="profitResult">$0</span>
+                </div>
+                <div class="result-item total">
+                    <span class="result-label" data-zh="总计金额" data-en="Total Amount">总计金额</span>
+                    <span class="result-value" id="totalResult">$0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-item">
+                <span class="feature-icon">🤖</span>
+                <span class="feature-text" data-zh="AI智能算法，24小时自动交易" data-en="AI Smart Algorithm, 24/7 Automated Trading">AI智能算法，24小时自动交易</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📊</span>
+                <span class="feature-text" data-zh="实时数据分析，精准把握市场" data-en="Real-time Data Analysis, Precise Market Insights">实时数据分析，精准把握市场</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🔒</span>
+                <span class="feature-text" data-zh="银行级安全保障，资金安全无忧" data-en="Bank-level Security, Funds Fully Protected">银行级安全保障，资金安全无忧</span>
+            </div>
+        </div>
 
             <div class="input-group">
                 <label class="input-label">投资天数</label>
@@ -593,6 +682,31 @@
 
     <script>
         let selectedDays = 30;
+        let currentLang = 'zh'; // 默认中文
+
+        // 语言切换功能
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            
+            // 更新按钮文字
+            document.getElementById('langText').textContent = currentLang === 'zh' ? 'EN' : '中文';
+            
+            // 更新所有带有 data-zh 和 data-en 属性的元素
+            document.querySelectorAll('[data-zh][data-en]').forEach(element => {
+                element.textContent = element.getAttribute('data-' + currentLang);
+            });
+            
+            // 保存语言偏好
+            localStorage.setItem('preferredLang', currentLang);
+        }
+
+        // 页面加载时恢复语言偏好
+        function initLanguage() {
+            const savedLang = localStorage.getItem('preferredLang');
+            if (savedLang && savedLang !== currentLang) {
+                toggleLanguage();
+            }
+        }
 
         // 统计功能
         function trackEvent(eventType, eventData) {
@@ -746,6 +860,7 @@
         createParticles();
         updateStats();
         createDataStream();
+        initLanguage(); // 初始化语言
     </script>
 </body>
 </html>
