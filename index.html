@@ -519,12 +519,12 @@
             transform: scale(0.98);
         }
 
-        .contact-btn.wechat {
-            background: linear-gradient(135deg, #07c160 0%, #05a850 100%);
+        .contact-btn.telegram {
+            background: linear-gradient(135deg, #0088cc 0%, #006699 100%);
         }
 
-        .contact-btn.wechat:hover {
-            box-shadow: 0 8px 20px rgba(7, 193, 96, 0.4);
+        .contact-btn.telegram:hover {
+            box-shadow: 0 8px 20px rgba(0, 136, 204, 0.4);
         }
 
         .contact-btn.whatsapp {
@@ -613,9 +613,9 @@
             </div>
 
             <div class="contact-buttons">
-                <button class="contact-btn wechat" onclick="contactService('wechat')">
-                    <span class="btn-icon">💬</span>
-                    <span class="btn-text" data-zh="点击添加微信" data-en="Add WeChat">点击添加微信</span>
+                <button class="contact-btn telegram" onclick="contactService('telegram')">
+                    <span class="btn-icon">✈️</span>
+                    <span class="btn-text" data-zh="点击添加 Telegram" data-en="Add Telegram">点击添加 Telegram</span>
                 </button>
 
                 <button class="contact-btn whatsapp" onclick="contactService('whatsapp')">
@@ -828,11 +828,15 @@
 
         function contactService(type) {
             trackEvent('buttonClick', 'contact_' + type);
+            
+            if (type === 'telegram') {
+                // 直接打开 Telegram 链接
+                window.open('https://t.me/goldtrading_ok', '_blank');
+                return;
+            }
+            
             let message = '';
             switch(type) {
-                case 'wechat':
-                    message = '📱 请添加微信客服\n\n微信号：[请填写您的微信号]\n\n立即领取黄金量化交易托管免费体验名额！';
-                    break;
                 case 'whatsapp':
                     message = '📱 请添加 WhatsApp 客服\n\n号码：[请填写您的WhatsApp号码]\n\n立即领取黄金量化交易托管免费体验名额！';
                     break;
