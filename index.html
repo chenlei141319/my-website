@@ -835,11 +835,15 @@
                 return;
             }
             
+            if (type === 'whatsapp') {
+                // 直接打开 WhatsApp 链接，带预设消息
+                const message = encodeURIComponent('你好，我想咨询黄金量化交易托管');
+                window.open('https://wa.me/8618083603679?text=' + message, '_blank');
+                return;
+            }
+            
             let message = '';
             switch(type) {
-                case 'whatsapp':
-                    message = '📱 请添加 WhatsApp 客服\n\n号码：[请填写您的WhatsApp号码]\n\n立即领取黄金量化交易托管免费体验名额！';
-                    break;
                 case 'line':
                     message = '📱 请添加 LINE 客服\n\nLINE ID：[请填写您的LINE ID]\n\n立即领取黄金量化交易托管免费体验名额！';
                     break;
