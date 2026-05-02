@@ -594,6 +594,26 @@
     <script>
         let selectedDays = 30;
 
+        // 统计功能
+        function trackEvent(eventType, eventData) {
+            const stats = JSON.parse(localStorage.getItem('siteStats') || '{"pageViews": 0, "buttonClicks": {}}');
+            
+            if (eventType === 'pageView') {
+                stats.pageViews = (stats.pageViews || 0) + 1;
+                stats.lastVisit = new Date().toISOString();
+            } else if (eventType === 'buttonClick') {
+                if (!stats.buttonClicks[eventData]) {
+                    stats.buttonClicks[eventData] = 0;
+                }
+                stats.buttonClicks[eventData]++;
+            }
+            
+            localStorage.setItem('siteStats', JSON.stringify(stats));
+        }
+
+        // 页面加载时记录访问
+        trackEvent('pageView');
+
         function createParticles() {
             const container = document.getElementById('particles');
             for (let i = 0; i < 50; i++) {
@@ -659,6 +679,7 @@
         }
 
         function contactService(type) {
+            trackEvent('buttonClick', 'contact_' + type);
             let message = '';
             switch(type) {
                 case 'wechat':
@@ -675,6 +696,7 @@
         }
 
         function calculateReturn() {
+            trackEvent('buttonClick', 'calculate_return');
             const investment = parseFloat(document.getElementById('investment').value);
             
             if (!investment || investment <= 0) {
