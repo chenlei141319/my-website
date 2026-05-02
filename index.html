@@ -842,13 +842,11 @@
                 return;
             }
             
-            let message = '';
-            switch(type) {
-                case 'line':
-                    message = '📱 请添加 LINE 客服\n\nLINE ID：[请填写您的LINE ID]\n\n立即领取黄金量化交易托管免费体验名额！';
-                    break;
+            if (type === 'line') {
+                // 直接打开 LINE 链接
+                window.open('https://line.me/ti/p/~goldtrading_ok', '_blank');
+                return;
             }
-            alert(message);
         }
 
         function calculateReturn() {
