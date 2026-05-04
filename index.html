@@ -363,17 +363,19 @@
         .cta-button::before {
             content: '👆';
             position: absolute;
-            top: -10px;
-            left: 20px;
-            font-size: 24px;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 28px;
             animation: click-hint 1.5s ease-in-out infinite;
         }
 
         .cta-button::after {
             content: '';
             position: absolute;
-            top: -5px;
-            left: 15px;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 12px;
             height: 12px;
             background: #ff4757;
@@ -384,22 +386,22 @@
 
         @keyframes click-hint {
             0%, 100% { 
-                transform: translateY(0) scale(1);
+                transform: translateX(-50%) translateY(0) scale(1);
                 opacity: 1;
             }
             50% { 
-                transform: translateY(-5px) scale(1.1);
+                transform: translateX(-50%) translateY(5px) scale(1.1);
                 opacity: 0.8;
             }
         }
 
         @keyframes pulse-dot {
             0%, 100% { 
-                transform: scale(1);
+                transform: translateX(-50%) scale(1);
                 opacity: 1;
             }
             50% { 
-                transform: scale(1.3);
+                transform: translateX(-50%) scale(1.3);
                 opacity: 0.6;
             }
         }
